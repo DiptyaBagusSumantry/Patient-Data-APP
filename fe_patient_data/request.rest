@@ -1,0 +1,160 @@
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjcwMDEyY2EyLTM2NzUtNDA2Zi05MTcwLWUzMDlkNzg4MWY2MyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxOTQ2OTY5MiwiZXhwIjoxNzE5ODE1MjkyfQ.a-3BmeZo4wWuDVsfK2vRKU8V_hhON41IOYQSl6q5bpg
+
+//register patient
+###
+POST http://localhost:5003/patient
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "nik": "1234567821236497",
+    "fullname": "Patient 1",
+    "place_birth": "Patient 1",
+    "date_birth": "2024-03-12",
+    "gender": "Patient 1",
+    "address": "Patient 1",
+    "work": "Patient 1",
+    "phone": "01234582173",
+    "username": "patient4",
+    "password": "User1234!",
+    "email": "user2@gmail.com"
+}
+//rekam medis
+###
+POST http://localhost:5003/rekam-medis
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "date": "2024-03-12",
+    "diagnosis": "batuk",
+    "therapy": "istirahat yang cukup",
+    "service": "umum",
+    "description": "makan obat 3 kali sehari",
+    "patient_id": "ff4de4fd-d21f-46be-b36f-fec398f948b5"
+}
+
+###
+POST http://localhost:5003/login
+Content-Type: application/json
+
+{
+    "username" : "admin",
+    "password" : "Admin1234!"
+}
+
+###
+GET http://localhost:5003/key-code
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+GET http://localhost:5003/patient
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+//Get Detail Rekam-Medis
+###
+GET http://localhost:5003/rekam-medis/5efa2a00-d415-4824-827f-d2c238cd50e9
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+//Get ALL Rekam-Medis
+###
+GET http://localhost:5003/rekam-medis/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+GET http://localhost:5003/patient/ff4de4fd-d21f-46be-b36f-fec398f948b5
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+//getrm by patientId
+###
+GET http://localhost:5003/rekam-medis/patient/ff4de4fd-d21f-46be-b36f-fec398f948b5
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+
+//Get Detail Patient
+###
+GET http://localhost:5005/patient/5f142fb7-34c7-432c-8aae-a57d1705cd8c
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+//chek patient by nik and date_birth IF old patient
+###
+GET http://localhost:5005/check-patient?&nik=1234567891236997&date_birth=2024-03-12
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+PUT http://localhost:5005/patient/d0854d8a-e586-4877-abd2-45e46e1116b6
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "nik": "1234567891236997",
+    "fullname": "Bagus 1",
+    "place_birth": "Banyumas",
+    "date_birth": "2024-03-12",
+    "gender": "Oke Gas",
+    "address": "Oke Gas",
+    "work": "Oke Gas",
+    "phone": "01234568921",
+    "username": "pasien2",
+    "phone": "08123456783",
+    "email": "pasien2@gmail.com"
+}
+
+###
+POST http://localhost:5005/reservation
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "date": "2025-03-11",
+    "diagnosis": "klinik gigi",
+    "service": [{
+        "name": "periksa gigi",
+        "price": "50000"
+    },{
+        "name": "tambal gigi",
+        "price": "10000"
+    }],
+    "user_id": ""
+}
+
+//LIST ALL RESERVATION ==> ONLY ADMIN 
+###
+GET http://localhost:5005/reservation
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+//Detail Reservation by Patient
+###
+GET http://localhost:5005/reservation/2783ef0a-2ae2-4199-b20b-b989d518e4a1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+POST http://localhost:5005/service
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+   "code": "CBTG1", 
+   "name": "Cabut Gigi", 
+   "price": "100000"
+}
+ 
+###
+GET http://localhost:5005/service
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+GET http://localhost:5005/transaction
+Authorization: Bearer {{token}}
+Content-Type: application/json
