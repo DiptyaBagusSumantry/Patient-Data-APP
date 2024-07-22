@@ -80,31 +80,31 @@ class SGKMS {
       keyVersion: ciphertext[0].keyVersion,
       ciphertext: ciphertext,
     });
-    // console.log(response);
+    // console.log(ciphertext);
     return response.data;
   }
 
   //seal wity syncmetric (publickey and privatekey)
   static async seal(sessionToken, plaintext) {
-    // const response = await axiosInstance.post("/v1.0/seal", {
-    //   sessionToken: sessionToken,
-    //   slotId: parseInt(process.env.SLOT_ID),
-    //   keyId: process.env.KEY_ID,
-    //   plaintext: plaintext,
-    // });
-    // // console.log(plaintext)
-    // return response.data;
+    const response = await axiosInstance.post("/v1.0/seal", {
+      sessionToken: sessionToken,
+      slotId: parseInt(process.env.SLOT_ID),
+      keyId: process.env.KEY_ID,
+      plaintext: plaintext,
+    });
+    // console.log(sessionToken);
+    return response.data;
   }
 
   //unseal wity syncmetric (publickey and privatekey)
   static async unseal(sessionToken, ciphertext) {
-    // const response = await axiosInstance.post("/v1.0/unseal", {
-    //   sessionToken: sessionToken,
-    //   slotId: parseInt(process.env.SLOT_ID),
-    //   ciphertext: ciphertext,
-    // });
-    // // console.log(plaintext)
-    // return response.data;
+    const response = await axiosInstance.post("/v1.0/unseal", {
+      sessionToken: sessionToken,
+      slotId: parseInt(process.env.SLOT_ID),
+      ciphertext: ciphertext,
+    });
+    // console.log(ciphertext);
+    return response.data;
   }
 
   static async refreshSession(sessionToken) {

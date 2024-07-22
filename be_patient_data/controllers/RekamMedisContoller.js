@@ -236,7 +236,7 @@ class RekamMedisController {
       if (!get) {
         return handleGet(res, get);
       }
-      
+
       const {
         id,
         diagnosis,
@@ -246,21 +246,35 @@ class RekamMedisController {
         service,
         ["patient.id"]: id_patient,
         ["patient.number_regristation"]: number_regristation,
-        ["patient.fullname"]: fullname,
+        ["patient.text"]: fullname,
         ["patient.place_birth"]: place_birth,
         ["patient.date_birth"]: date_birth,
         ["patient.gender"]: gender,
         ["patient.phone"]: phone,
-        // ['patient.address']: address,
+        ["patient.address"]: address,
         ["patient.work"]: work,
         // ['patient.history_illness']: history_illness,
         ["patient.mac"]: mac,
         ["patient.iv"]: iv,
-        ["patient.key_version"]: keyVersion,
+        ["patient.keyVersion"]: keyVersion,
       } = get;
+      // console.log(get)
+      const decryptData = await SGKMS.decryptData(sessionToken.session_token, [
+        {
+          id: id_patient,
+          text: fullname,
+          place_birth,
+          date_birth,
+          gender,
+          address,
+          work,
+          phone,
+          keyVersion,
+          mac,
+          iv,
+        },
+      ]);
 
-
-      return
       const unseal = await SGKMS.unseal(sessionToken.session_token, [
         date,
         diagnosis,
@@ -278,213 +292,61 @@ class RekamMedisController {
         description: unseal.result.plaintext[3],
         service: unseal.result.plaintext[4],
         number_regristation,
-        fullname,
+        fullname: decryptData.result.plaintext[0],
         gender,
         phone,
         work,
         date_birth,
-        place_birth
+        place_birth,
       });
-      // const { id, diagnosis, therapy, date } = get.dataValues;
-      // const {
-      //   id: id_patient,
-      //   number_regristation,
-      //   fullname,
-      //   place_birth,
-      //   date_birth,
-      //   gender,
-      //   phone,
-      //   address,
-      //   work,
-      //   history_illness,
-      // } = get.dataValues.patient;
-      // const {
-      //   text: descriptionText,
-      //   mac: descriptionMac,
-      //   iv: descriptionIv,
-      // } = JSON.parse(get.dataValues.description);
-      // const {
-      //   text: serviceText,
-      //   mac: serviceMac,
-      //   iv: serviceIv,
-      // } = JSON.parse(get.dataValues.service);
-      // const {
-      //   text: diagnosisText,
-      //   mac: diagnosisMac,
-      //   iv: diagnosisIv,
-      // } = JSON.parse(get.dataValues.diagnosis);
-      // const {
-      //   text: therapyText,
-      //   mac: therapyMac,
-      //   iv: therapyIv,
-      // } = JSON.parse(get.dataValues.therapy);
-      // const {
-      //   text: fullnameText,
-      //   mac: fullnameMac,
-      //   iv: fullnameIv,
-      // } = JSON.parse(get.dataValues.patient.fullname);
-
-      // const tgl = new Date(date).toLocaleDateString("id-ID", {
-      //   day: "2-digit",
-      //   month: "long",
-      //   year: "numeric",
-      // });
-
-      // const data = {
-      //   id,
-      //   id_patient,
-      //   number_regristation,
-      //   description: await SGKMS.decryptData(
-      //     token.sessionToken,
-      //     descriptionText,
-      //     descriptionMac,
-      //     descriptionIv
-      //   ),
-      //   date,
-      //   fullname: await SGKMS.decryptData(
-      //     token.sessionToken,
-      //     fullnameText,
-      //     fullnameMac,
-      //     fullnameIv
-      //   ),
-      //   gender,
-      //   phone,
-      //   service: await SGKMS.decryptData(
-      //     token.sessionToken,
-      //     serviceText,
-      //     serviceMac,
-      //     serviceIv
-      //   ),
-      //   diagnosis: await SGKMS.decryptData(
-      //     token.sessionToken,
-      //     diagnosisText,
-      //     diagnosisMac,
-      //     diagnosisIv
-      //   ),
-      //   therapy: await SGKMS.decryptData(
-      //     token.sessionToken,
-      //     therapyText,
-      //     therapyMac,
-      //     therapyIv
-      //   ),
-      //   work,
-      //   date_birth,
-      // };
-      // handleGet(res, data);
-
-      // const getRM = await RekamMedis.findAll(whereClause);
-
-      // // const data = await Promise.all(
-      //   getRM.map(async (data) => {
-      //     const {
-      //       id,
-      //       date,
-      //       // description,
-      //       // service,
-      //       // odontogram,
-      //       // diagnosis,
-      //       // therapy,
-      //     } = data.dataValues;
-
-      //     // const {
-      //     //   text: descriptionText,
-      //     //   mac: descriptionMac,
-      //     //   iv: descriptionIv,
-      //     // } = JSON.parse(data.dataValues.description);
-      //     // const {
-      //     //   text: serviceText,
-      //     //   mac: serviceMac,
-      //     //   iv: serviceIv,
-      //     // } = JSON.parse(data.dataValues.service);
-      //     // const {
-      //     //   text: diagnosisText,
-      //     //   mac: diagnosisMac,
-      //     //   iv: diagnosisIv,
-      //     // } = JSON.parse(data.dataValues.diagnosis);
-      //     // const {
-      //     //   text: therapyText,
-      //     //   mac: therapyMac,
-      //     //   iv: therapyIv,
-      //     // } = JSON.parse(data.dataValues.therapy);
-      //     // const {
-      //     //   text: fullnameText,
-      //     //   mac: fullnameMac,
-      //     //   iv: fullnameIv,
-      //     // } = JSON.parse(data.dataValues.patient.fullname);
-
-      //     const {
-      //       id: id_patient,
-      //       // number_regristation,
-      //       // fullname,
-      //       phone,
-      //       gender,
-      //       work,
-      //       date_birth,
-      //     } = data.dataValues.patient;
-      //     // let hasil = "";
-      //     // const proses = JSON.parse(service);
-      //     // proses.forEach((data) => {
-      //     //   hasil += data.name + ", ";
-      //     // });
-      //     return {
-      //       id,
-      //       id_patient,
-      //       // number_regristation,
-      //       description: await SGKMS.decryptData(
-      //         token.sessionToken,
-      //         descriptionText,
-      //         descriptionMac,
-      //         descriptionIv
-      //       ),
-      //       date,
-      //       fullname: await SGKMS.decryptData(
-      //         token.sessionToken,
-      //         fullnameText,
-      //         fullnameMac,
-      //         fullnameIv
-      //       ),
-      //       gender,
-      //       phone,
-      //       service: await SGKMS.decryptData(
-      //         token.sessionToken,
-      //         serviceText,
-      //         serviceMac,
-      //         serviceIv
-      //       ),
-      //       diagnosis: await SGKMS.decryptData(
-      //         token.sessionToken,
-      //         diagnosisText,
-      //         diagnosisMac,
-      //         diagnosisIv
-      //       ),
-      //       therapy: await SGKMS.decryptData(
-      //         token.sessionToken,
-      //         therapyText,
-      //         therapyMac,
-      //         therapyIv
-      //       ),
-      //       work,
-      //       date_birth,
-      //       // odontogram: JSON.parse(odontogram),
-      //     };
-      //   })
-      // );
     } catch (error) {
+      if (error.response) {
+        return res.status(500).json(error.response.data);
+      }
       handlerError(res, error);
     }
   }
   static async getDetailbyPatient(req, res) {
     try {
       const token = accesToken(req);
+      //GetSessionTokenSGKMS
+      const sessionToken = await Models.User.findOne({
+        where: {
+          id: token.id,
+        },
+        attributes: ["session_token"],
+        raw: true,
+      });
+
       const get = await Patient.findAll({
         where: {
           id: req.params.id,
         },
+        attributes: [
+          "id",
+          ["fullname", "text"],
+          "number_regristation",
+          "place_birth",
+          "date_birth",
+          "gender",
+          "address",
+          "work",
+          "phone",
+          ["key_version", "keyVersion"],
+          "mac",
+          "iv",
+        ],
         include: {
           model: RekamMedis,
         },
       });
-      // return res.send(get)
+
+      const decryptData = await SGKMS.decryptData(sessionToken.session_token, [
+        get[0].dataValues,
+      ]);
+
+      // const {} =get[0]
+      // return res.send(decryptData)
       if (get.length <= 0) {
         return handleGet(res, get);
       }
@@ -492,75 +354,21 @@ class RekamMedisController {
         return handlerError(res, { message: "History Rekam Medis Not Found" });
       }
 
-      const {
-        text: fullnameText,
-        mac: fullnameMac,
-        iv: fullnameIv,
-      } = JSON.parse(get[0].fullname);
-      const fullname = await SGKMS.decryptData(
-        token.sessionToken,
-        fullnameText,
-        fullnameMac,
-        fullnameIv
-      );
-
       const rekamMedis = get[0].dataValues.history_patients;
       const data = await Promise.all(
         rekamMedis.map(async (reuslt) => {
           const { id, date, diagnosis, therapy, description, service } =
             reuslt.dataValues;
 
-          const {
-            text: descriptionText,
-            mac: descriptionMac,
-            iv: descriptionIv,
-          } = JSON.parse(description);
-          const {
-            text: serviceText,
-            mac: serviceMac,
-            iv: serviceIv,
-          } = JSON.parse(service);
-          // console.log(serviceText)
-          const {
-            text: diagnosisText,
-            mac: diagnosisMac,
-            iv: diagnosisIv,
-          } = JSON.parse(diagnosis);
-          const {
-            text: therapyText,
-            mac: therapyMac,
-            iv: therapyIv,
-          } = JSON.parse(therapy);
-
           return {
             id,
             number_regristation: get[0].dataValues.number_regristation,
             date,
-            description: await SGKMS.decryptData(
-              token.sessionToken,
-              descriptionText,
-              descriptionMac,
-              descriptionIv
-            ),
-            service: await SGKMS.decryptData(
-              token.sessionToken,
-              serviceText,
-              serviceMac,
-              serviceIv
-            ),
-            diagnosis: await SGKMS.decryptData(
-              token.sessionToken,
-              diagnosisText,
-              diagnosisMac,
-              diagnosisIv
-            ),
-            therapy: await SGKMS.decryptData(
-              token.sessionToken,
-              therapyText,
-              therapyMac,
-              therapyIv
-            ),
-            fullname,
+            diagnosis,
+            therapy,
+            description,
+            service,
+            fullname: decryptData.result.plaintext[0],
           };
         })
       );

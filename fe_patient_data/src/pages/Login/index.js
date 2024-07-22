@@ -71,7 +71,7 @@ const LoginPage = () => {
                     }
                     className="bg-[#015995] text-white text-sm rounded-[6px] w-[100px] py-[10px] px-[25px]"
                   >
-                    Okey
+                    Okay
                   </button>
                 </div>
               </div>

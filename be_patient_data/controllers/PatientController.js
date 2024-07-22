@@ -152,7 +152,7 @@ class PatientController {
       });
       return res.send(dataDecrypt);
     } catch (error) {
-      if (error.response.data.fault) {
+      if (error.response) {
         return res.status(500).json(error.response.data);
       }
       handlerError(res, error);
@@ -208,6 +208,16 @@ class PatientController {
   }
   static async updatePatient(req, res) {
     try {
+      const token = accesToken(req);
+
+      //GetSessionTokenSGKMS
+      const sessionToken = await Models.User.findOne({
+        where: {
+          id: token.id,
+        },
+        attributes: ["session_token"],
+      });
+
       const {
         fullname,
         place_birth,
@@ -216,26 +226,45 @@ class PatientController {
         address,
         work,
         phone,
-        history_illness,
+        number_regristation,
       } = req.body;
-      const updateData = await Patient.update(
-        {
-          fullname,
-          place_birth,
-          date_birth,
-          gender,
-          address,
-          work,
-          phone,
-          history_illness,
-        },
-        {
-          where: {
-            id: req.params.id,
+
+      const encrypt = await SGKMS.encryptData(
+        sessionToken.dataValues.session_token,
+        [
+          {
+            number_regristation,
+            text: fullname,
+            place_birth,
+            date_birth,
+            gender,
+            address,
+            work,
+            phone,
           },
-        }
+        ]
       );
-      handleUpdate(res, updateData);
+      // return res.send(encrypt)
+      const update = await Patient.update({
+        number_regristation,
+        fullname: encrypt.result.ciphertext[0].text,
+        place_birth,
+        date_birth,
+        gender,
+        address,
+        work,
+        phone,
+        key_version: encrypt.result.keyVersion,
+        mac: encrypt.result.ciphertext[0].mac,
+        iv: encrypt.result.ciphertext[0].iv,
+      },{
+        where: {
+          id: req.params.id
+        }
+      });
+
+      handleUpdate(res, update);
+
     } catch (error) {
       handlerError(res, error);
     }

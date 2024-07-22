@@ -84,9 +84,10 @@ export default function CreateRekamMedis() {
     const selectedService = dataLayanan.find(
       (service) => service.id === serviceId
     );
-    console.log(selectedService, "selectedService");
+    // console.log(selectedService.name, "selectedService");
     if (action === "add") {
-      setSelectedServices([...selectedServices, selectedService]);
+      setSelectedServices(selectedService.name);
+      // setSelectedServices([...selectedServices, selectedService]);
     } else if (action === "delete") {
       const updatedServices = selectedServices.filter(
         (service) => service.id !== serviceId

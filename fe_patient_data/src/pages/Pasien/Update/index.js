@@ -17,6 +17,7 @@ export default function UpdatePasien() {
   const [pekerjaan, setPekerjaan] = useState();
   const [telepon, setTelepon] = useState();
   const [alergi, setAlergi] = useState();
+  const [noRM, setNoRM] = useState();
 
   const getPasienById = async () => {
     try {
@@ -31,15 +32,17 @@ export default function UpdatePasien() {
       setAlamat(response.data.data.address);
       setPekerjaan(response.data.data.work);
       setTelepon(response.data.data.phone);
+      setNoRM(response.data.data.number_regristation);
       setAlergi(response.data.data.history_illness);
     } catch (error) {
       console.log(error);
     }
   };
-
+  
   const updatePasien = async () => {
     try {
       const data = {
+        number_regristation: noRM,
         fullname: nama,
         place_birth: tempatLahir,
         date_birth: tanggalLahir,

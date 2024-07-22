@@ -1,4 +1,4 @@
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjcwMDEyY2EyLTM2NzUtNDA2Zi05MTcwLWUzMDlkNzg4MWY2MyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxOTUzODc4MCwiZXhwIjoxNzE5ODg0MzgwfQ.HPHIa-R0uT0sQzx6R70Idd_eQhBf4N9HgUKSE0mrtvo
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjcwMDEyY2EyLTM2NzUtNDA2Zi05MTcwLWUzMDlkNzg4MWY2MyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxOTgwMjg3NywiZXhwIjoxNzIwMTQ4NDc3fQ.lLAu4NPS_o_E62Mv2VYMEG74c7Iv8Bvwl7X3pZ768Eo
 
 //register patient
 ###
@@ -55,7 +55,7 @@ Content-Type: application/json
 
 //Get Detail Rekam-Medis
 ###
-GET http://localhost:5003/rekam-medis/1c167d1d-5a67-41c8-b1b1-c31c198f1187
+GET http://localhost:5003/rekam-medis/e7c1b5ef-5d8d-4188-9c78-62c06518b401
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
@@ -90,22 +90,19 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 ###
-PUT http://localhost:5003/patient/d0854d8a-e586-4877-abd2-45e46e1116b6
+PUT http://localhost:5003/patient/4acbf744-f5ea-40b7-85e7-9f9eb6aa688e
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "nik": "1234567891236997",
-    "fullname": "Bagus 1",
+    "number_regristation": "000001",
+    "fullname": "Bagus sumantry",
     "place_birth": "Banyumas",
     "date_birth": "2024-03-12",
     "gender": "Oke Gas",
     "address": "Oke Gas",
     "work": "Oke Gas",
-    "phone": "01234568921",
-    "username": "pasien2",
-    "phone": "08123456783",
-    "email": "pasien2@gmail.com"
+    "phone": "01234568921"
 }
 
 ###
