@@ -87,6 +87,7 @@ class AuthController {
         where: { id: user.id },
         attributes: ["username"],
       }).then((data) => {
+        console.log(data)
         return {
           username: data.username,
           role: user.role,
